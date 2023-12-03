@@ -22,9 +22,7 @@ function submitForm() {
         })
         .then((data) => {
             console.log('login istek başarılı: ', data);
-
-            //    alert('Gönder başarıyla oluşturuldu.')
-
-            // postForm.reset();
+            localStorage.setItem('jwtToken', data.token);
+            window.location.href = "index.html";
         })
 }
