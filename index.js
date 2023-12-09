@@ -1,9 +1,9 @@
 //Örnek ürün verileri
-const products = [
-    {id: 1, name: "ürün1", price: 50, unitsInStock: 10, categoryId: 1, active: true},
+let products = [
+   /* {id: 1, name: "ürün1", price: 50, unitsInStock: 10, categoryId: 1, active: true},
     {id: 2, name: "ürün2", price: 500, unitsInStock: 110, categoryId: 1, active: true},
     {id: 3, name: "ürün3", price: 5000, unitsInStock: 5, categoryId: 2, active: false},
-    // Diğer ürünleri ekleyebilirsiniz
+    // Diğer ürünleri ekleyebilirsiniz*/
 ];
 
 //sepet içeriği
@@ -11,21 +11,24 @@ let cartItems = [];
 
 // ürün listesini oluştur.
 function renderProductList() {
-
+    debugger
     const productList = document.getElementById("productList")
     products.forEach(product => {
-        const productCard = document.createElement("div");
-        productCard.classList.add("col-md-6", "mb-4");
-        productCard.innerHTML=  ` 
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title"> ${product.name} </h5>
-                <p class="card-text"> Fiyat: ${product.price}</p>
-                <button class="btn btn-primary" onclick="addToCart(${product.id})"> Sepete Ekle </button>
+        debugger;
+        if(product.active) {
+            const productCard = document.createElement("div");
+            productCard.classList.add("col-md-6", "mb-4");
+            productCard.innerHTML=  ` 
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title"> ${product.name} </h5>
+                    <p class="card-text"> Fiyat: ${product.price}</p>
+                    <button class="btn btn-primary" onclick="addToCart(${product.id})"> Sepete Ekle </button>
+                </div>
             </div>
-        </div>
-        `;
-        productList.appendChild(productCard);
+            `;
+            productList.appendChild(productCard);
+        }
     });
 }
 
@@ -66,7 +69,6 @@ function updateCart() {
 
 //Sepetten ürün çıkar
 function removeFromCart(index) {
-    debugger
     const removedItem = cartItems.splice(index, 1)[0];
     //ürün stoğunu artır
     const product = products.find(p => p.id === removedItem.id);
@@ -106,8 +108,35 @@ function clearCart() {
     cartItems = [];
     updateCart();
 }
+
+//productListesini al;
+async function getProductListByApi() {
+    const categoryId = 1;
+
+    try {
+        const response = await fetch('http://localhost:8080/product/category/1', {
+            method: 'GET',
+            headers: {Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiaGFzYW5tbW0iLCJhdXRob3JpdGllcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9VU0VSIn1dLCJzdWIiOiJoYXNhbm1tbSIsImlhdCI6MTcwMjExMTM2OCwiZXhwIjoxNzAyMTEzMTY4fQ.i6E4aPSRA483ayLEt56pUxThNGEGy7IwiWZvazw4-NU'}
+        });
+
+        if (!response.ok) {
+            throw new Error('Başarısız durum kodu: ' + response.status);
+        }
+
+        const data = await response.json();
+        console.log("Response for getProductListByApi: ", data);
+        products = data;
+        // Continue with the rest of your code here
+    } catch (error) {
+        console.error("Error", error);
+    }
+}
+
+
 // Sayfa yüklendiğinde çağrılacak fonksiyonlar
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
+    await getProductListByApi();
+
     renderProductList();
     updateCart();
     updateBuyButtonVisiblitiy();
