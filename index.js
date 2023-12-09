@@ -11,10 +11,10 @@ let cartItems = [];
 
 // ürün listesini oluştur.
 function renderProductList() {
-    debugger
+ 
     const productList = document.getElementById("productList")
     products.forEach(product => {
-        debugger;
+      
         if(product.active) {
             const productCard = document.createElement("div");
             productCard.classList.add("col-md-6", "mb-4");
@@ -97,6 +97,53 @@ document.getElementById("buyButton").addEventListener('click', function() {
     //Burada satın alma işlemini gerçekleştireceğiz.
     //yani backende istek atacaz, cartItems içerisinde bulunan ürünleri
     alert("Satın alma işleminiz başarıyla tamamlandı!")
+
+    // Create a map to store counts
+    const idCountMap = new Map();
+    
+    // Iterate through the cartItems array
+    cartItems.forEach(item => {
+    const { id } = item;
+    
+    // Check if the id exists in the map
+    if (idCountMap.has(id)) {
+        // If it exists, increment the count
+        idCountMap.set(id, idCountMap.get(id) + 1);
+    } else {
+        // If it doesn't exist, set the count to 1
+        idCountMap.set(id, 1);
+    }
+    });
+    
+    // Display the id and count mapping
+    idCountMap.forEach((count, id) => {
+    console.log(`ID: ${id}, Count: ${count}`);
+    });
+    var orderProductInfoList = [...idCountMap].map(([productId, quantity]) => ({ productId, quantity }));
+    console.log("map to List -> " + orderProductInfoList)
+
+    //api ye istek at order
+    //
+    debugger
+    fetch('http://localhost:8080/order', {
+        method: 'POST',
+        body: JSON.stringify({
+            orderProductInfoList
+        }),
+        headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+            headers: {Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiaGFzYW5tbW0iLCJhdXRob3JpdGllcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9VU0VSIn1dLCJzdWIiOiJoYXNhbm1tbSIsImlhdCI6MTcwMjExNzQ3NSwiZXhwIjoxNzAyMTE5Mjc1fQ.HB8AEcoeMRSK9ahQlXAcJGDlJuL19HPj1BbOwMMh5kI'}
+        },
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(' isteğiaşarısız. Durum kodu:' + response.status);
+            }
+            return response.json();
+        })
+        .then((data) => {
+          
+        })
     //istersen burada satın aldıktan sonra başka sayfayada yönlendirebilirsin.
     console.log(cartItems)
     clearCart();
@@ -116,7 +163,8 @@ async function getProductListByApi() {
     try {
         const response = await fetch('http://localhost:8080/product/category/1', {
             method: 'GET',
-            headers: {Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiaGFzYW5tbW0iLCJhdXRob3JpdGllcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9VU0VSIn1dLCJzdWIiOiJoYXNhbm1tbSIsImlhdCI6MTcwMjExMTM2OCwiZXhwIjoxNzAyMTEzMTY4fQ.i6E4aPSRA483ayLEt56pUxThNGEGy7IwiWZvazw4-NU'}
+          //  mode: 'no-cors',
+        headers: {Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiaGFzYW5tbW0iLCJhdXRob3JpdGllcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9VU0VSIn1dLCJzdWIiOiJoYXNhbm1tbSIsImlhdCI6MTcwMjExNzQ3NSwiZXhwIjoxNzAyMTE5Mjc1fQ.HB8AEcoeMRSK9ahQlXAcJGDlJuL19HPj1BbOwMMh5kI'}
         });
 
         if (!response.ok) {
