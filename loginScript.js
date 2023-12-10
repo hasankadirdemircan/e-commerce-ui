@@ -23,6 +23,8 @@ function submitForm() {
         .then((data) => {
             console.log('login istek başarılı: ', data);
             localStorage.setItem('jwtToken', data.token);
+           // console.log("localstorage")
+           // console.log(localStorage.getItem('jwtToken'))
             window.location.href = "index.html";
         })
 }

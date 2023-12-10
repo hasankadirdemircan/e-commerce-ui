@@ -6,6 +6,8 @@ let products = [
     // Diğer ürünleri ekleyebilirsiniz*/
 ];
 
+const jwtToken = localStorage.getItem('jwtToken');
+
 //sepet içeriği
 let cartItems = [];
 
@@ -125,15 +127,16 @@ document.getElementById("buyButton").addEventListener('click', function() {
 
     //api ye istek at order
     //
-    debugger
+    const customerId = parseJwt();
     fetch('http://localhost:8080/order', {
         method: 'POST',
         body: JSON.stringify({
+            customerId,
             orderProductInfoList
         }),
         headers: {
             'Content-type': 'application/json; charset=UTF-8',
-            headers: {Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiaGFzYW5tbW0iLCJhdXRob3JpdGllcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9VU0VSIn1dLCJzdWIiOiJoYXNhbm1tbSIsImlhdCI6MTcwMjExNzQ3NSwiZXhwIjoxNzAyMTE5Mjc1fQ.HB8AEcoeMRSK9ahQlXAcJGDlJuL19HPj1BbOwMMh5kI'}
+            headers: {Authorization: 'Bearer ' + jwtToken}
         },
     })
         .then((response) => {
@@ -153,7 +156,7 @@ document.getElementById("buyButton").addEventListener('click', function() {
 })
 
 function parseJwt() {
-    debugger
+    //localStorage'dan token çek
     const token = 'eyJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiaGFzYW5tbW0iLCJhdXRob3JpdGllcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9VU0VSIn1dLCJzdWIiOiJoYXNhbm1tbSIsImlhdCI6MTcwMjExNzQ3NSwiZXhwIjoxNzAyMTE5Mjc1fQ.HB8AEcoeMRSK9ahQlXAcJGDlJuL19HPj1BbOwMMh5kI'; // JWT token'ınızı buraya yerleştirin
 
     const base64Url = token.split('.')[1];
@@ -162,7 +165,7 @@ function parseJwt() {
 
     const name = decodedData.name;
     console.log(name);
-
+    return name;
 }
 
 function clearCart() {
@@ -178,7 +181,7 @@ async function getProductListByApi() {
         const response = await fetch('http://localhost:8080/product/category/1', {
             method: 'GET',
           //  mode: 'no-cors',
-        headers: {Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiaGFzYW5tbW0iLCJhdXRob3JpdGllcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9VU0VSIn1dLCJzdWIiOiJoYXNhbm1tbSIsImlhdCI6MTcwMjExNzQ3NSwiZXhwIjoxNzAyMTE5Mjc1fQ.HB8AEcoeMRSK9ahQlXAcJGDlJuL19HPj1BbOwMMh5kI'}
+        headers: {Authorization: 'Bearer ' + jwtToken}
         });
 
         if (!response.ok) {
