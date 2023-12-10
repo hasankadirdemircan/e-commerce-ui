@@ -7,6 +7,7 @@ let products = [
 ];
 
 const jwtToken = localStorage.getItem('jwtToken');
+const customerId = localStorage.getItem('customerId');
 
 //sepet içeriği
 let cartItems = [];
@@ -125,9 +126,7 @@ document.getElementById("buyButton").addEventListener('click', function() {
     console.log("map to List -> " + orderProductInfoList)
 
 
-    //api ye istek at order
-    //
-    const customerId = parseJwt();
+    //kullanıcı sipariş ver dedğinde backend api ye istek atar
     fetch('http://localhost:8080/order', {
         method: 'POST',
         body: JSON.stringify({
@@ -136,8 +135,8 @@ document.getElementById("buyButton").addEventListener('click', function() {
         }),
         headers: {
             'Content-type': 'application/json; charset=UTF-8',
-            headers: {Authorization: 'Bearer ' + jwtToken}
-        },
+            Authorization: 'Bearer ' + jwtToken
+        }
     })
         .then((response) => {
             if (!response.ok) {
@@ -154,19 +153,6 @@ document.getElementById("buyButton").addEventListener('click', function() {
     //Satın al butonunun görünürlüğünü güncelle
     updateBuyButtonVisiblitiy();
 })
-
-function parseJwt() {
-    //localStorage'dan token çek
-    const token = 'eyJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiaGFzYW5tbW0iLCJhdXRob3JpdGllcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9VU0VSIn1dLCJzdWIiOiJoYXNhbm1tbSIsImlhdCI6MTcwMjExNzQ3NSwiZXhwIjoxNzAyMTE5Mjc1fQ.HB8AEcoeMRSK9ahQlXAcJGDlJuL19HPj1BbOwMMh5kI'; // JWT token'ınızı buraya yerleştirin
-
-    const base64Url = token.split('.')[1];
-    const base64 = base64Url.replace('-', '+').replace('_', '/');
-    const decodedData = JSON.parse(atob(base64));
-
-    const name = decodedData.name;
-    console.log(name);
-    return name;
-}
 
 function clearCart() {
     cartItems = [];
@@ -201,7 +187,7 @@ async function getProductListByApi() {
 // Sayfa yüklendiğinde çağrılacak fonksiyonlar
 document.addEventListener("DOMContentLoaded", async () => {
     await getProductListByApi();
-    parseJwt()
+
     renderProductList();
     updateCart();
     updateBuyButtonVisiblitiy();
