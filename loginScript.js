@@ -26,14 +26,14 @@ function submitForm() {
             localStorage.setItem('jwtToken', data.token);
             localStorage.setItem('customerId', data.customerId);
 
-           // console.log("localstorage")
-           // console.log(localStorage.getItem('jwtToken'))
-          const role = parseJwt(data.token);
-          if("ROLE_USER" === role) {
-            window.location.href = "index.html";
-          } else if ("ROLE_ADMIN" === role) {
-            window.location.href = "admin.html";
-          }
+            // console.log("localstorage")
+            // console.log(localStorage.getItem('jwtToken'))
+            const role = parseJwt(data.token);
+            if ("ROLE_USER" === role) {
+                window.location.href = "index.html";
+            } else if ("ROLE_ADMIN" === role) {
+                window.location.href = "admin.html";
+            }
         })
 }
 

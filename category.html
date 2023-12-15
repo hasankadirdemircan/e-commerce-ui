@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category Management</title>
+    <!-- Bootstrap CSS dosyasını ekleyin -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+
+    <header>
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#" onclick="loadPage('category')">Category Page</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="loadPage('admin')">Go to Admin</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container mt-5">
+        <h2>Category Management</h2>
+
+        <!-- Category Form -->
+        <form id="categoryForm" class="mb-4">
+            <div class="form-group">
+                <label for="name">Category Name:</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+            <button type="button" class="btn btn-primary" id="addCategoryBtn">Add Category</button>
+        </form>
+
+        <!-- Category Table -->
+        <table id="categoryTable" class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Buraya dinamik olarak eklenen tablo içeriği gelecek -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Düzenleme Modalı -->
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">Edit Category</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Düzenleme Formu -->
+                    <form id="editForm">
+                        <!-- Bu input ile düzenlenen kategorinin ID'sini saklayın -->
+                        <input type="hidden" id="editCategoryId" name="editCategoryId">
+
+                        <div class="form-group">
+                            <label for="editCategoryName">Category Name:</label>
+                            <input type="text" class="form-control" id="editCategoryName" name="editCategoryName"
+                                required>
+                        </div>
+
+                        <!-- Diğer input alanları eklenebilir -->
+
+                        <button type="button" class="btn btn-primary" onclick="editCategory()">Save Changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer-->
+    <footer class="bg-dark text-light text-center p-3 mt-5 fixed-bottom">
+        &copy; 2023 E-Ticaret Uygulaması
+        Tüm hakkı saklıdır.
+    </footer>
+    <!-- Bootstrap JS dosyasını ekleyin -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function loadPage(page) {
+            if (page === 'admin') {
+                window.location.href = 'admin.html';
+            } else {
+                // İçerikleri dinamik olarak değiştirmek için AJAX veya başka bir yöntem kullanabilirsiniz.
+                // Ancak, burada sadece örnek bir içerik değişimi yapılmıştır.
+                document.getElementById('pageContent').innerHTML = '<h1>Welcome to Category Page</h1>';
+            }
+        }
+    </script>
+
+    <!-- category.js dosyasını ekleyin -->
+    <script src="category.js"></script>
+</body>
+
+</html>
