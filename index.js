@@ -24,7 +24,7 @@ function renderProductList() {
 
             // İmage elementini oluştur
             const productImage = document.createElement("img");
-            productImage.src = `/Users/hasankadirdemircan/Desktop/e-commerce/${product.image}`;
+            productImage.src = `C:\\Users\\hasan.demircan\\Desktop\\e-commerce\\${product.image}`;
             productImage.alt = product.name;
             productImage.style.maxWidth = "50px";
             productImage.style.maxHeight = "50px";

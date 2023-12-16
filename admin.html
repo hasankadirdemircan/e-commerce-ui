@@ -24,6 +24,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#" onclick="loadPage('category')">Go to Category</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="loadPage('logout')">Logout</a>
+                    </li>
                 </ul>
             </div>
         </nav>
@@ -166,7 +169,11 @@
         function loadPage(page) {
             if (page === 'category') {
                 window.location.href = 'category.html';
-            } else {
+            } else if(page === 'logout') {
+                window.location.href = 'login.html';
+
+            }
+             else {
                 // İçerikleri dinamik olarak değiştirmek için AJAX veya başka bir yöntem kullanabilirsiniz.
                 // Ancak, burada sadece örnek bir içerik değişimi yapılmıştır.
                 document.getElementById('pageContent').innerHTML = '<h1>Welcome to Admin Page</h1>';

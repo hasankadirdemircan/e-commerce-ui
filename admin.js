@@ -68,7 +68,7 @@ async function renderProductTable() {
         <td> ${product.price} </td>
         <td> ${product.unitsInStock} </td>
         <td> ${product.categoryId} </td>
-        <td><img src="/Users/hasankadirdemircan/Desktop/e-commerce/${product.image}" alt="${product.name}" style="max-width: 50px; ax-height: 50px;"> </td>
+        <td><img src="C:\\Users\\hasan.demircan\\Desktop\\e-commerce\\${product.image}" alt="${product.name}" style="max-width: 50px; ax-height: 50px;"> </td>
         <td> ${product.active ? 'Yes' : 'No'} </td>
         <td>
             <button class="btn btn-warning btn-sm" onclick="editProduct(${product.id})">Güncelle</button>
